@@ -35,9 +35,14 @@ public class playerMove : MonoBehaviour {
             isAttacking = false;
         }
 
-        if (Input.GetKeyDown("space") && isGrounded){
-            rb.AddForce(new Vector3(0, JUMPFORCE,0));
-        }
+        if (Input.GetKeyDown("space"))
+		{
+			GroundedCheck();
+			if(isGrounded)
+			{
+				rb.AddForce(new Vector3(0, JUMPFORCE,0));
+			}
+		}
 
         if (Input.GetKeyDown(KeyCode.LeftControl)){
             tf.localScale -= new Vector3(0, 0.5f, 0);
@@ -52,20 +57,26 @@ public class playerMove : MonoBehaviour {
 
     }
 
-	//void FixedUpdate()
-	//{
-
-	//	if()
-	//}
-
-
-    void OnCollisionEnter(Collision other){
-        Debug.Log("isGrounded == " + isGrounded);
-        if (other.gameObject.tag == "floor")
+	void GroundedCheck()
+	{
+		RaycastHit hit;
+		if (Physics.Raycast(transform.position, Vector3.down, out hit, transform.localScale.y * 0.5f + 0.1f))
 		{
-            isGrounded = true;
-        }
-    }
+			if (hit.collider.tag == "floor")
+			{
+				isGrounded = true;
+            }
+		}
+
+	}
+
+	//void OnCollisionEnter(Collision other){
+ //       Debug.Log("isGrounded == " + isGrounded);
+ //       if (other.gameObject.tag == "floor")
+	//	{
+ //           isGrounded = true;
+ //       }
+ //   }
 
     void OnCollisionExit(Collision other){
        if(other.gameObject.tag == "floor")
