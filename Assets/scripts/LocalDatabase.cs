@@ -37,8 +37,8 @@ public class LocalDatabase : MonoBehaviour {
     //for testing;
     public void Update()
 	{
-
-    }
+		checkDevilState();
+	}
 
     public float apocalypseNormalized { get { return apocalypseCurrent / apocalypseMax; } }
 
