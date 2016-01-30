@@ -12,11 +12,8 @@ public enum DevilAttack : int
         Annoyed = 3,
         Harmless = 4
 }
-
 	bool hitPlayer = false;
-
     float waitTime;
-
     float posX;
     Vector3 startPos;
     bool inAction;
@@ -24,21 +21,17 @@ public enum DevilAttack : int
     public Transform throwPosition;
     public Transform bowl;
     public Transform BowlPosition;
+    public Transform startMarker;
+    public Transform endMarker;
+    public float speed = 1.0F;
 
-
-    public void setState(int state)
-	{
+    public void setState(int state){
         runAction((DevilAttack)state);
     }
 
-    public Transform startMarker;
-    public Transform endMarker;
-	
-
-    public float speed = 1.0F;
     private float startTime;
-    void Start()
-    {
+
+    void Start(){
 	startPos = transform.position;
         startTime = Time.time;
         inAction = false;
@@ -50,31 +43,28 @@ public enum DevilAttack : int
 {
         while (true){
             yield return new WaitForSeconds(waitTime);
-            var randomInt = Random.Range(0, 3);
-            inAction = true;
-            if (randomInt == 0){
-                StartCoroutine("BiteAttack", LocalDatabase.instance.player.transform.position);
-            }
-            else if(randomInt == 1){
-                initSpike();
-            }
-            else if(randomInt == 2){
-                initBowl();
+            if (!inAction){
+                var randomInt = Random.Range(0, 3);
+                inAction = true;
+                if (randomInt == 0)
+                {
+                    StartCoroutine("BiteAttack", LocalDatabase.instance.player.transform.position);
+                }
+                else if (randomInt == 1)
+                {
+                    initSpike();
+                }
+                else if (randomInt == 2)
+                {
+                    initBowl();
+                }
             }
             Debug.Log("running action. Delay = " + waitTime);
         }
     
 }
 
-void Update()
-    {
-
-    }
-
     public void runAction(DevilAttack state){
-        if (inAction){
-            return;
-        }
         switch (state){
             case DevilAttack.PissedOff:
                 waitTime = 3.0f;
@@ -115,7 +105,7 @@ void Update()
 	{
 		while ((target.x - transform.position.x) > 0.05f)
 		{
-			transform.position += Vector3.right * speed * 0.1f * Time.deltaTime;
+			transform.position += Vector3.right * speed * 0.5f * Time.deltaTime;
 			Collider2D[] col = Physics2D.OverlapCircleAll(BowlPosition.position, 0.5f);
 			foreach (Collider2D c in col)
 			{
@@ -138,11 +128,12 @@ void Update()
 		StopCoroutine("BiteAttack");
 		while ((transform.position.x - startPos.x) > 0.05f)
 		{
-			transform.position -= Vector3.right * speed * 0.1f * Time.deltaTime;
+			transform.position -= Vector3.right * speed * 0.7f * Time.deltaTime;
 			yield return null;
 		}
 		hitPlayer = false;
-		StopCoroutine(BiteRetreat());
+        inAction = false;
+        StopCoroutine(BiteRetreat());
 	}
 
 

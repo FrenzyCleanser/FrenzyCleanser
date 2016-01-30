@@ -9,7 +9,7 @@ public class ControllerBowlingball : MonoBehaviour {
     void Start ()
 	{
         rb = GetComponent<Rigidbody2D>();
-        rb.AddForce(new Vector2(600.0f, 30.0f));
+        rb.AddForce(new Vector2(900.0f, 30.0f));
         StartCoroutine(WaitAndDie(5.0F));
     }
 
