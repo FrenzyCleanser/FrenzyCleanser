@@ -9,7 +9,7 @@ public class Player : MonoBehaviour
 
 	int maxHealth = 5;
 	public int health;
-
+    public Animator anim;
     bool isAttacking;
     bool isCrounching;
     bool isGrounded;
@@ -22,17 +22,19 @@ public class Player : MonoBehaviour
     // Use this for initialization
     void Start ()
 	{
-		health = maxHealth;
+        health = maxHealth;
         rb = GetComponent<Rigidbody2D>();
         isGrounded = false;
+        //anim.SetBool("isGrounded", isGrounded);
         isAttacking = false;
+       
     }
 	
 	// Update is called once per frame
 	void Update ()
 	{
-
-		//WHAT IS AN ATTACK EVEN?
+        
+        //WHAT IS AN ATTACK EVEN?
         if (Input.GetKeyDown(KeyCode.X)){
             isAttacking = true;
         }
@@ -66,7 +68,8 @@ public class Player : MonoBehaviour
 
 	void FixedUpdate()
 	{
-		Physics2D.IgnoreLayerCollision(8,  9, isCrounching);
+        GroundedCheck();
+        Physics2D.IgnoreLayerCollision(8,  9, isCrounching);
 	}
 
 	void GroundedCheck()
@@ -77,15 +80,21 @@ public class Player : MonoBehaviour
 			if(col.gameObject.layer == 9)
 			{
 				isGrounded = true;
-			}
+                Debug.Log("Entering");
+                anim.SetBool("isGrounded", true);
+                
+            }
 		}
 	}
 	
     void OnCollisionExit2D(Collision2D other)
 	{
+       
        if(other.gameObject.layer == 9)
 		{
+            Debug.Log("leaving");
             isGrounded = false;
+            anim.SetBool("isGrounded", false);
         }
     }
 
