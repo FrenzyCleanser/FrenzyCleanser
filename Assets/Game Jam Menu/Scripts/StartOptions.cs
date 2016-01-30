@@ -62,6 +62,10 @@ public class StartOptions : MonoBehaviour {
 
 	}
 
+	public void ReloadScene()
+	{
+		SceneManager.LoadScene("endless");
+	}
 
 	public void LoadDelayed()
 	{

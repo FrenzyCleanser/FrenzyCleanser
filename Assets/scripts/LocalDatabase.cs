@@ -28,16 +28,16 @@ public class LocalDatabase : MonoBehaviour {
 
 	public Player player;
     public Devil devil;
-	
 
-    public void Start(){
+    public void Start()
+	{
 		apocalypsoMeter.fillAmount = apocalypseNormalized;
 	}
 
     //for testing;
     public void Update()
 	{
-		checkDevilState();
+		
 	}
 
     public float apocalypseNormalized { get { return apocalypseCurrent / apocalypseMax; } }

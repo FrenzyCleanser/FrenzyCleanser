@@ -31,7 +31,6 @@ public class Player : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
-
 		//WHAT IS AN ATTACK EVEN?
         if (Input.GetKeyDown(KeyCode.X)){
             isAttacking = true;
@@ -112,6 +111,7 @@ public class Player : MonoBehaviour
 	void Die()
 	{
 		//Play death animation
+		ShowPanels.instance.ShowGameOverPanel();
 		//Pause game - GAAME OVER
 	}
 }

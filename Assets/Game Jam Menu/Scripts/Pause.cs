@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Pause : MonoBehaviour {
+public class Pause : MonoBehaviour
+{
 
 
 	private ShowPanels showPanels;						//Reference to the ShowPanels script used to hide and show UI panels
