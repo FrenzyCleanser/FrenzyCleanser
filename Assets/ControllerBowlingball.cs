@@ -8,9 +8,12 @@ public class ControllerBowlingball : MonoBehaviour {
     // Use this for initialization
     void Start ()
 	{
+        Renderer rend = GetComponent<Renderer>();
         rb = GetComponent<Rigidbody2D>();
         rb.AddForce(new Vector2(900.0f, 30.0f));
         StartCoroutine(WaitAndDie(5.0F));
+        rend.material.color = Color.red;
+
     }
 
 	void OnCollisionEnter2D(Collider2D other)
