@@ -13,7 +13,8 @@ public class Devil : MonoBehaviour {
 		Supersaiyan = 4
 	}
 
-    bool inBite;
+	bool hitPlayer = false;
+
     bool reachedPosition;
     float posX;
     Vector3 startPos;
@@ -45,25 +46,7 @@ public class Devil : MonoBehaviour {
     }
     void Update()
     {
-        if (inBite){
-            
-            if (!reachedPosition){
-                float step = speed * Time.deltaTime;
-                transform.position = Vector3.MoveTowards(transform.position, endMarker.position, step);
-                if (transform.position.x >= endMarker.position.x - .05f){
-                    reachedPosition = true;
-                }
-            }
-            else{
-                float step = speed * Time.deltaTime;
-                transform.position = Vector3.MoveTowards(transform.position, startMarker.position, step);
-                if (transform.position.x <= startMarker.position.x + .05f){
-                    reachedPosition = false;
-                    inBite = false;
-                    inAction = false;
-                }
-            }
-        }
+        
     }
 
     public void runAction(DevilAttack state){
@@ -115,7 +98,18 @@ public class Devil : MonoBehaviour {
 		while ((target.x - transform.position.x) > 0.05f)
 		{
 			transform.position += Vector3.right * speed * 0.1f * Time.deltaTime;
-
+			Collider2D[] col = Physics2D.OverlapCircleAll(BowlPosition.position, 0.5f);
+			foreach (Collider2D c in col)
+			{
+				if(c.tag == "Player" && !hitPlayer)
+				{
+					Player p = c.GetComponent<Player>();
+					p.Damage();
+					p.rb.velocity += (Vector2.up + Vector2.right) * 10f;
+					hitPlayer = true;
+					break;
+				}
+			}
 			yield return null;
 		}
 		StartCoroutine(BiteRetreat());
@@ -129,16 +123,9 @@ public class Devil : MonoBehaviour {
 			transform.position -= Vector3.right * speed * 0.1f * Time.deltaTime;
 			yield return null;
 		}
+		hitPlayer = false;
 		StopCoroutine(BiteRetreat());
 	}
 
-	void OnTriggerEnter2D(Collider2D other)
-	{
-		if (other.tag == "Player")
-		{
-			other.GetComponent<Player>().Damage();
-
-		}
-	}
 
 }

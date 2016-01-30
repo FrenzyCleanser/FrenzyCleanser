@@ -13,7 +13,8 @@ public class Player : MonoBehaviour
     bool isAttacking;
     bool isCrounching;
     bool isGrounded;
-    Rigidbody2D rb;
+	[HideInInspector]
+	public Rigidbody2D rb;
     Vector3 feetPosition { get { return transform.position + Vector3.down * transform.localScale.y * 0.5f; } }
 	
     Transform scalepivot;
