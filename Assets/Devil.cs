@@ -91,23 +91,23 @@ void Update()
         }
         switch (state){
             case DevilAttack.PissedOff:
-                waitTime = 4.0f;
+                waitTime = 3.0f;
                 Debug.Log("In action state = " + state);
 				break;
 			case DevilAttack.Angry:
 				Debug.Log("In action state = " + state);
-                waitTime = 8.0f;
+                waitTime = 6.0f;
                 break;
 			case DevilAttack.Irritated:
                 Debug.Log("In action state = " + state);
-                waitTime = 12.0f;
+                waitTime = 8.0f;
                 break;
 			case DevilAttack.Annoyed:
                 Debug.Log("In action state = " + state);
-                waitTime = 15.0f;
+                waitTime = 10.0f;
                 break;
 			case DevilAttack.Harmless:
-                waitTime = 20.0f;
+                waitTime = 12.0f;
                 break;
             default:
                 Debug.Log("In action state = " + state);
