@@ -68,15 +68,7 @@ public class playerMove : MonoBehaviour {
 		}
 
 	}
-
-	//void OnCollisionEnter(Collision other){
- //       Debug.Log("isGrounded == " + isGrounded);
- //       if (other.gameObject.tag == "floor")
-	//	{
- //           isGrounded = true;
- //       }
- //   }
-
+	
     void OnCollisionExit(Collision other){
        if(other.gameObject.tag == "floor")
 		{
