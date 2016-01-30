@@ -10,7 +10,9 @@ public class playerMove : MonoBehaviour {
     bool isCrounching;
     bool isGrounded;
     Rigidbody2D rb;
+
     Vector3 feetPosition { get { return transform.position + Vector3.down * transform.localScale.y * 0.5f; } }
+
     Transform tf;
     Transform scalepivot;
 
@@ -64,7 +66,6 @@ public class playerMove : MonoBehaviour {
 		
         if (hit != null)
 		{
-			Debug.Log("plz work");
 			if (hit.tag == "floor")
 			{
 				isGrounded = true;
