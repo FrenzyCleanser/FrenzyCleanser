@@ -13,7 +13,7 @@ public class Pentagram : BeseObstacle
 	public override void DevilAction()
 	{
 		Destroy(gameObject);
-		LocalDatabase.instance.addApocalypse(1);
+		LocalDatabase.instance.addApocalypse(3);
 	}
 
 }

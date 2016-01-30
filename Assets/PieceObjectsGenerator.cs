@@ -10,8 +10,7 @@ public class PieceObjectsGenerator : MonoBehaviour
 	public float spawnFieldHeightMin,spawnFieldHeightMax;
 	
 	public int spawnCountMin, spawnCountMax;
-
-
+	
 	void Start ()
 	{
 		int spawnCount = Random.Range(spawnCountMin, spawnCountMax);
