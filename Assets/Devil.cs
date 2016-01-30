@@ -14,44 +14,64 @@ public class Devil : MonoBehaviour {
 	}
 
     bool inBite;
+    bool reachedPosition;
     float posX;
     Vector3 startPos;
+    Vector3 endPos;
+    bool inAction;
 
-    public void Start(){
-        startPos = GetComponent<Transform>().position;
-        posX = startPos.x;
-        inBite = false;
-    }
+
+
 
 
     public void setState(int state){
         runAction((DevilAttack)state);
     }
 
+    public Transform startMarker;
+    public Transform endMarker;
+    public float speed = 1.0F;
+    private float startTime;
+    private float journeyLength;
+    void Start()
+    {
+        startTime = Time.time;
+        journeyLength = Vector3.Distance(startMarker.position, endMarker.position);
+        inAction = false;
 
-    public void Update(){
+    }
+    void Update()
+    {
         if (inBite){
-            if(posX < startPos.x + .03){
-                posX += 0.0005f;
-                Vector3 temp = new Vector3(posX-startPos.x, 0, 0);
-                transform.position += temp;
+            
+            if (!reachedPosition){
+                float step = speed * Time.deltaTime;
+                transform.position = Vector3.MoveTowards(transform.position, endMarker.position, step);
+                if (transform.position.x >= endMarker.position.x - .05f){
+                    reachedPosition = true;
+                }
             }
             else{
-                inBite = false;
-                posX = startPos.x;
-                transform.position = startPos;
+                float step = speed * Time.deltaTime;
+                transform.position = Vector3.MoveTowards(transform.position, startMarker.position, step);
+                if (transform.position.x <= startMarker.position.x + .05f){
+                    reachedPosition = false;
+                    inBite = false;
+                    inAction = false;
+                }
             }
         }
     }
 
-
-    public void runAction(DevilAttack state)
-	{
+    public void runAction(DevilAttack state){
+        if (inAction){
+            return;
+        }
         switch (state){
-            
             case DevilAttack.Bite:
-				Debug.Log("In action state = " + state);
-				inBite = true;
+                inAction = true;
+                inBite = true;
+                Debug.Log("In action state = " + state);
 				break;
 			case DevilAttack.Throw:
 				Debug.Log("In action state = " + state);
@@ -67,6 +87,5 @@ public class Devil : MonoBehaviour {
                 Debug.Log("In action state = " + state);
                 break;
         }
-
     }
 }
