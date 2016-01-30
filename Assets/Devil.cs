@@ -19,7 +19,10 @@ public class Devil : MonoBehaviour {
     Vector3 startPos;
     Vector3 endPos;
     bool inAction;
-
+    public Transform spike;
+    public Transform throwPosition;
+    public Transform bowl;
+    public Transform BowlPosition;
 
 
 
@@ -77,15 +80,30 @@ public class Devil : MonoBehaviour {
 				Debug.Log("In action state = " + state);
 				break;
 			case DevilAttack.ThrowSpike:
-				Debug.Log("In action state = " + state);
+                inAction = true;
+                initSpike();
+                Debug.Log("In action state = " + state);
 				break;
 			case DevilAttack.Bowl:
-				break;
+                inAction = true;
+                initBowl();
+                Debug.Log("In action state = " + state);
+                break;
 			case DevilAttack.Supersaiyan:
 				break;
             default:
                 Debug.Log("In action state = " + state);
                 break;
         }
+    }
+
+
+    private void initSpike(){
+        Instantiate(spike, throwPosition.position, transform.rotation);
+        inAction = false;
+    }
+    private void initBowl(){
+        Instantiate(bowl, BowlPosition.position, transform.rotation);
+        inAction = false;
     }
 }
