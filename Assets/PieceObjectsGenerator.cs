@@ -20,7 +20,8 @@ public class PieceObjectsGenerator : MonoBehaviour
 			newObject.transform.parent = transform;
 
 			newObject.transform.position = transform.position + 50 * Vector3.left + 5 * Vector3.back;
-			newObject.transform.position += Vector3.right * Random.Range((100.0f * i) / spawnCount, (100.0f * i + 1) / spawnCount);
+			newObject.transform.position += Vector3.right * Random.Range((100.0f * i) / spawnCount, (100.0f * (i + 1)) / spawnCount);
+			newObject.transform.position += Vector3.up * Random.Range(spawnFieldHeightMin, spawnFieldHeightMax);
 		}
 	
 	}

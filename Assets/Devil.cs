@@ -24,10 +24,8 @@ public class Devil : MonoBehaviour {
     public Transform bowl;
     public Transform BowlPosition;
 
-
-
-
-    public void setState(int state){
+    public void setState(int state)
+	{
         runAction((DevilAttack)state);
     }
 
@@ -97,13 +95,25 @@ public class Devil : MonoBehaviour {
         }
     }
 
-
-    private void initSpike(){
+    private void initSpike()
+	{
         Instantiate(spike, throwPosition.position, transform.rotation);
         inAction = false;
     }
-    private void initBowl(){
+
+    private void initBowl()
+	{
         Instantiate(bowl, BowlPosition.position, transform.rotation);
         inAction = false;
     }
+
+	//I'll deal with this later on...
+	IEnumerator BiteAttack()
+	{
+		while (true)
+		{
+			yield return null;
+        }
+	}
+
 }
