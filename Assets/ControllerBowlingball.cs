@@ -15,8 +15,8 @@ public class ControllerBowlingball : MonoBehaviour {
 
     IEnumerator WaitAndDie(float waitTime)
     {
+
         yield return new WaitForSeconds(waitTime);
         Object.Destroy(this.gameObject);
     }
-
 }

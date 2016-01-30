@@ -6,13 +6,14 @@ public class Devil : MonoBehaviour {
 	//We'll add many more if needed
 	public enum DevilAttack : int
 	{
-		Bite = 0,
-		Throw = 1,
-		ThrowSpike = 2,
-		Bowl = 3,
-		Supersaiyan = 4
+        PissedOff = 0,
+        Angry = 1,
+        Irritated = 2,
+        Annoyed = 3,
+        Harmless = 4
 	}
 
+    float waitTime;
     bool inBite;
     bool reachedPosition;
     float posX;
@@ -24,6 +25,7 @@ public class Devil : MonoBehaviour {
     public Transform bowl;
     public Transform BowlPosition;
 
+
     public void setState(int state)
 	{
         runAction((DevilAttack)state);
@@ -34,17 +36,36 @@ public class Devil : MonoBehaviour {
     public float speed = 1.0F;
     private float startTime;
     private float journeyLength;
-    void Start()
-    {
+    void Start() {
         startTime = Time.time;
         journeyLength = Vector3.Distance(startMarker.position, endMarker.position);
         inAction = false;
-
+        waitTime = 5.0f;
+        StartCoroutine(runAction());       
     }
-    void Update()
+
+    IEnumerator runAction(){
+        while (true){
+            yield return new WaitForSeconds(waitTime);
+            var randomInt = Random.Range(0, 3);
+            inAction = true;
+            if (randomInt == 0){
+                inBite = true;
+            }
+            else if(randomInt == 1){
+                initSpike();
+            }
+            else if(randomInt == 2){
+                initBowl();
+            }
+            Debug.Log("running action. Delay = " + waitTime);
+        }
+    
+}
+
+void Update()
     {
         if (inBite){
-            
             if (!reachedPosition){
                 float step = speed * Time.deltaTime;
                 transform.position = Vector3.MoveTowards(transform.position, endMarker.position, step);
@@ -69,47 +90,43 @@ public class Devil : MonoBehaviour {
             return;
         }
         switch (state){
-            case DevilAttack.Bite:
-                inAction = true;
-                inBite = true;
+            case DevilAttack.PissedOff:
+                waitTime = 4.0f;
                 Debug.Log("In action state = " + state);
 				break;
-			case DevilAttack.Throw:
+			case DevilAttack.Angry:
 				Debug.Log("In action state = " + state);
-				break;
-			case DevilAttack.ThrowSpike:
-                inAction = true;
-                initSpike();
-                Debug.Log("In action state = " + state);
-				break;
-			case DevilAttack.Bowl:
-                inAction = true;
-                initBowl();
-                Debug.Log("In action state = " + state);
+                waitTime = 8.0f;
                 break;
-			case DevilAttack.Supersaiyan:
-				break;
+			case DevilAttack.Irritated:
+                Debug.Log("In action state = " + state);
+                waitTime = 12.0f;
+                break;
+			case DevilAttack.Annoyed:
+                Debug.Log("In action state = " + state);
+                waitTime = 15.0f;
+                break;
+			case DevilAttack.Harmless:
+                waitTime = 20.0f;
+                break;
             default:
                 Debug.Log("In action state = " + state);
                 break;
         }
     }
 
-    private void initSpike()
-	{
+    private void initSpike(){
         Instantiate(spike, throwPosition.position, transform.rotation);
         inAction = false;
     }
 
-    private void initBowl()
-	{
+    private void initBowl(){
         Instantiate(bowl, BowlPosition.position, transform.rotation);
         inAction = false;
     }
 
 	//I'll deal with this later on...
-	IEnumerator BiteAttack()
-	{
+	IEnumerator BiteAttack(){
 		while (true)
 		{
 			yield return null;
