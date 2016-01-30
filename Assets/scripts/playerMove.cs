@@ -10,16 +10,13 @@ public class playerMove : MonoBehaviour {
     bool isCrounching;
     bool isGrounded;
     Rigidbody2D rb;
-
     Vector3 feetPosition { get { return transform.position + Vector3.down * transform.localScale.y * 0.5f; } }
-
-    Transform tf;
+	
     Transform scalepivot;
 
     // Use this for initialization
     void Start () {
         rb = GetComponent<Rigidbody2D>();
-        tf = GetComponent<Transform>();
         isGrounded = false;
         isAttacking = false;
 		
@@ -49,10 +46,10 @@ public class playerMove : MonoBehaviour {
 		}
 
         if (Input.GetKeyDown(KeyCode.DownArrow)){
-            tf.localScale -= new Vector3(0, 0.5f, 0);
+            transform.localScale -= new Vector3(0, 0.5f, 0);
         }
         if (Input.GetKeyUp(KeyCode.DownArrow)){
-            tf.localScale += new Vector3(0, 0.5f, 0);
+            transform.localScale += new Vector3(0, 0.5f, 0);
         }
 
         var move = new Vector3(Input.GetAxis("Horizontal"), 0, 0);
@@ -60,22 +57,26 @@ public class playerMove : MonoBehaviour {
 
     }
 
+	void FixedUpdate()
+	{
+		Physics2D.IgnoreLayerCollision(8,  9, isCrounching);
+	}
+
 	void GroundedCheck()
 	{
-		Collider2D hit = Physics2D.OverlapPoint(feetPosition + Vector3.down * 0.3f);
-		
-        if (hit != null)
+		Collider2D col = Physics2D.OverlapCircle(feetPosition, 0.2f);
+        if ( col != null )
 		{
-			if (hit.tag == "floor")
+			if(col.gameObject.layer == 9)
 			{
 				isGrounded = true;
-            }
+			}
 		}
-
 	}
 	
-    void OnCollisionExit2D(Collision2D other){
-       if(other.gameObject.tag == "floor")
+    void OnCollisionExit2D(Collision2D other)
+	{
+       if(other.gameObject.layer == 9)
 		{
             isGrounded = false;
         }
