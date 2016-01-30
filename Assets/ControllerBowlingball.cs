@@ -16,11 +16,11 @@ public class ControllerBowlingball : MonoBehaviour {
 
     }
 
-	void OnCollisionEnter2D(Collider2D other)
+	void OnCollisionEnter2D(Collision2D other)
 	{
-		if(other.tag == "Player")
+		if(other.gameObject.tag == "Player")
 		{
-			other.GetComponent<Player>().Damage();
+			other.gameObject.GetComponent<Player>().Damage();
 		}
 	}
 
