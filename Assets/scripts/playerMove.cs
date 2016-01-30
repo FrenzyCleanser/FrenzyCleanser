@@ -27,7 +27,7 @@ public class playerMove : MonoBehaviour {
 	void Update ()
 	{
 
-
+		//WHAT IS AN ATTACK EVEN?
         if (Input.GetKeyDown(KeyCode.X)){
             isAttacking = true;
         }
@@ -35,7 +35,7 @@ public class playerMove : MonoBehaviour {
             isAttacking = false;
         }
 
-        if (Input.GetKeyDown("space"))
+        if (Input.GetKeyDown(KeyCode.UpArrow))
 		{
 			GroundedCheck();
 			if(isGrounded)
@@ -44,15 +44,14 @@ public class playerMove : MonoBehaviour {
 			}
 		}
 
-        if (Input.GetKeyDown(KeyCode.LeftControl)){
+        if (Input.GetKeyDown(KeyCode.DownArrow)){
             tf.localScale -= new Vector3(0, 0.5f, 0);
         }
-        if (Input.GetKeyUp(KeyCode.LeftControl)){
+        if (Input.GetKeyUp(KeyCode.DownArrow)){
             tf.localScale += new Vector3(0, 0.5f, 0);
         }
 
-
-        var move = new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"), 0);
+        var move = new Vector3(Input.GetAxis("Horizontal"), 0, 0);
         transform.position += move * MOVESPEED * Time.deltaTime;
 
     }
