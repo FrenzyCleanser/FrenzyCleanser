@@ -9,17 +9,18 @@ public class playerMove : MonoBehaviour {
     bool isAttacking;
     bool isCrounching;
     bool isGrounded;
-    Rigidbody rb;
-    Vector3 position;
+    Rigidbody2D rb;
+    Vector3 feetPosition { get { return transform.position + Vector3.down * transform.localScale.y * 0.5f; } }
     Transform tf;
     Transform scalepivot;
 
     // Use this for initialization
     void Start () {
-        rb = GetComponent<Rigidbody>();
+        rb = GetComponent<Rigidbody2D>();
         tf = GetComponent<Transform>();
         isGrounded = false;
         isAttacking = false;
+		
 
     }
 	
@@ -40,7 +41,7 @@ public class playerMove : MonoBehaviour {
 			GroundedCheck();
 			if(isGrounded)
 			{
-				rb.velocity += Vector3.up * JUMPFORCE;
+				rb.velocity += Vector2.up * JUMPFORCE;
 				//rb.AddForce(new Vector3(0, JUMPFORCE,0));
 			}
 		}
@@ -59,10 +60,12 @@ public class playerMove : MonoBehaviour {
 
 	void GroundedCheck()
 	{
-		RaycastHit hit;
-		if (Physics.Raycast(transform.position, Vector3.down, out hit, transform.localScale.y * 0.5f + 0.1f))
+		Collider2D hit = Physics2D.OverlapPoint(feetPosition + Vector3.down * 0.3f);
+		
+        if (hit != null)
 		{
-			if (hit.collider.tag == "floor")
+			Debug.Log("plz work");
+			if (hit.tag == "floor")
 			{
 				isGrounded = true;
             }
@@ -70,12 +73,10 @@ public class playerMove : MonoBehaviour {
 
 	}
 	
-    void OnCollisionExit(Collision other){
+    void OnCollisionExit2D(Collision2D other){
        if(other.gameObject.tag == "floor")
 		{
             isGrounded = false;
         }
     }
-
-
 }

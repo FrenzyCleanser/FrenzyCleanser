@@ -3,18 +3,21 @@
 public abstract class BeseObstacle : MonoBehaviour
 {
 	
-	void OnTriggerStay (Collider other)
+	void OnTriggerStay2D (Collider2D other)
 	{
 		if(other.tag == "Player")
 		{
 			if(Input.GetKeyDown(KeyCode.Space))
 			{
-				
-				ObstacleAction();
+				PriestAction();
 			}
+		}
+		else if (other.tag == "Devil")
+		{
+			DevilAction();
 		}
 	}
 
-	public abstract void ObstacleAction();
-	
+	public abstract void PriestAction();
+	public abstract void DevilAction();
 }
