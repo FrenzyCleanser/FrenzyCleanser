@@ -4,7 +4,7 @@ using System.Collections;
 public class ControllerTemtation : MonoBehaviour {
 
     public GameObject beer;
-    public GameObject DirtyMagazine;
+    public GameObject dirtyMagazine;
     public Transform spawnPoint;
     GameObject child;
 
@@ -17,7 +17,7 @@ public class ControllerTemtation : MonoBehaviour {
             child.transform.parent = spawnPoint.transform;
         }
         else{
-            child = Instantiate<GameObject>(beer);
+            child = Instantiate<GameObject>(dirtyMagazine);
             child.transform.position = spawnPoint.position;
             child.transform.parent = spawnPoint;
 
