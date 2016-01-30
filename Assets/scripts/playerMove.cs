@@ -4,7 +4,7 @@ using System.Collections;
 public class playerMove : MonoBehaviour {
 
 	const float MOVESPEED = 10;
-	const float JUMPFORCE = 300;
+	const float JUMPFORCE = 24;
 
     bool isAttacking;
     bool isCrounching;
@@ -40,7 +40,8 @@ public class playerMove : MonoBehaviour {
 			GroundedCheck();
 			if(isGrounded)
 			{
-				rb.AddForce(new Vector3(0, JUMPFORCE,0));
+				rb.velocity += Vector3.up * JUMPFORCE;
+				//rb.AddForce(new Vector3(0, JUMPFORCE,0));
 			}
 		}
 
