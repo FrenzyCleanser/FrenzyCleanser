@@ -17,7 +17,6 @@ public class Devil : MonoBehaviour {
     bool reachedPosition;
     float posX;
     Vector3 startPos;
-    Vector3 endPos;
     bool inAction;
     public Transform spike;
     public Transform throwPosition;
@@ -31,11 +30,14 @@ public class Devil : MonoBehaviour {
 
     public Transform startMarker;
     public Transform endMarker;
+	
+
     public float speed = 1.0F;
     private float startTime;
     private float journeyLength;
     void Start()
     {
+		startPos = transform.position;
         startTime = Time.time;
         journeyLength = Vector3.Distance(startMarker.position, endMarker.position);
         inAction = false;
@@ -71,7 +73,7 @@ public class Devil : MonoBehaviour {
         switch (state){
             case DevilAttack.Bite:
                 inAction = true;
-                inBite = true;
+				StartCoroutine("BiteAttack", LocalDatabase.instance.player.transform.position);
                 Debug.Log("In action state = " + state);
 				break;
 			case DevilAttack.Throw:
@@ -108,12 +110,35 @@ public class Devil : MonoBehaviour {
     }
 
 	//I'll deal with this later on...
-	IEnumerator BiteAttack()
+	IEnumerator BiteAttack(Vector3 target)
 	{
-		while (true)
+		while ((target.x - transform.position.x) > 0.05f)
 		{
+			transform.position += Vector3.right * speed * 0.1f * Time.deltaTime;
+
 			yield return null;
-        }
+		}
+		StartCoroutine(BiteRetreat());
+	}
+
+	IEnumerator BiteRetreat()
+	{
+		StopCoroutine("BiteAttack");
+		while ((transform.position.x - startPos.x) > 0.05f)
+		{
+			transform.position -= Vector3.right * speed * 0.1f * Time.deltaTime;
+			yield return null;
+		}
+		StopCoroutine(BiteRetreat());
+	}
+
+	void OnTriggerEnter2D(Collider2D other)
+	{
+		if (other.tag == "Player")
+		{
+			other.GetComponent<Player>().Damage();
+
+		}
 	}
 
 }

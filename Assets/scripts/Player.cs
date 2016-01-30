@@ -1,10 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class playerMove : MonoBehaviour {
+public class Player : MonoBehaviour
+{
 
 	const float MOVESPEED = 10;
 	const float JUMPFORCE = 24;
+
+	int maxHealth = 5;
+	public int health;
 
     bool isAttacking;
     bool isCrounching;
@@ -15,12 +19,12 @@ public class playerMove : MonoBehaviour {
     Transform scalepivot;
 
     // Use this for initialization
-    void Start () {
+    void Start ()
+	{
+		health = maxHealth;
         rb = GetComponent<Rigidbody2D>();
         isGrounded = false;
         isAttacking = false;
-		
-
     }
 	
 	// Update is called once per frame
@@ -46,11 +50,13 @@ public class playerMove : MonoBehaviour {
 		}
 
         if (Input.GetKeyDown(KeyCode.DownArrow)){
-            transform.localScale -= new Vector3(0, 0.5f, 0);
+            transform.localScale -= Vector3.up * 0.5f;
+			transform.position -= Vector3.up * 0.5f;
         }
         if (Input.GetKeyUp(KeyCode.DownArrow)){
-            transform.localScale += new Vector3(0, 0.5f, 0);
-        }
+			transform.localScale += Vector3.up * 0.5f;
+			transform.position += Vector3.up * 0.5f;
+		}
 
         var move = new Vector3(Input.GetAxis("Horizontal"), 0, 0);
         transform.position += move * MOVESPEED * Time.deltaTime;
@@ -81,4 +87,30 @@ public class playerMove : MonoBehaviour {
             isGrounded = false;
         }
     }
+
+	public void Damage()
+	{
+		Damage(1);
+	}
+
+	public void Damage(int i)
+	{
+		health -= i;
+		HealthUpdate();
+	}
+
+	void HealthUpdate()
+	{
+		LocalDatabase.instance.healthBar.fillAmount = (float)health / maxHealth;
+		if (health <= 0)
+		{
+			Die();
+		}
+	}
+
+	void Die()
+	{
+		//Play death animation
+		//Pause game - GAAME OVER
+	}
 }

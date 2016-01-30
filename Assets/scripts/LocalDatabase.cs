@@ -24,32 +24,38 @@ public class LocalDatabase : MonoBehaviour {
     public float apocalypseCurrent = 50;
 
 	public Image apocalypsoMeter;
+	public Image healthBar;
 
-    public GameObject devilObj;
-
-    Devil devil;
+	public Player player;
+    public Devil devil;
+	
 
     public void Start(){
-        devil = devilObj.GetComponent<Devil>();
 		apocalypsoMeter.fillAmount = apocalypseNormalized;
 	}
 
     //for testing;
-    public void Update(){
-        checkDevilState();
-		apocalypsoMeter.fillAmount = apocalypseNormalized;
+    public void Update()
+	{
+
     }
 
     public float apocalypseNormalized { get { return apocalypseCurrent / apocalypseMax; } }
 
     public void addApocalypse(float addValue){
         apocalypseCurrent += addValue;
-        checkDevilState(); 
-    }
+		updateApocalypse();
+	}
 	public void removeApocalypse(float removeValue)
 	{
 		apocalypseCurrent -= removeValue;
+		updateApocalypse();
+	}
+
+	void updateApocalypse()
+	{
 		checkDevilState();
+        apocalypsoMeter.fillAmount = apocalypseNormalized;
 	}
 
 	float[,] devilList = new float[5, 2] { { -1000, 0.2f }, { 0.2f, .4f }, { .4f, .6f }, { .6f, .8f }, { .8f, 1000 } };
