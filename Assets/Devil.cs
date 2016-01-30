@@ -4,21 +4,21 @@ using System.Collections;
 public class Devil : MonoBehaviour {
 
 	//We'll add many more if needed
-	public enum DevilAttack : int
-	{
+public enum DevilAttack : int
+{
         PissedOff = 0,
         Angry = 1,
         Irritated = 2,
         Annoyed = 3,
         Harmless = 4
-	}
+}
+
+	bool hitPlayer = false;
 
     float waitTime;
-    bool inBite;
-    bool reachedPosition;
+
     float posX;
     Vector3 startPos;
-    Vector3 endPos;
     bool inAction;
     public Transform spike;
     public Transform throwPosition;
@@ -33,24 +33,27 @@ public class Devil : MonoBehaviour {
 
     public Transform startMarker;
     public Transform endMarker;
+	
+
     public float speed = 1.0F;
     private float startTime;
-    private float journeyLength;
-    void Start() {
+    void Start()
+    {
+	startPos = transform.position;
         startTime = Time.time;
-        journeyLength = Vector3.Distance(startMarker.position, endMarker.position);
         inAction = false;
         waitTime = 5.0f;
         StartCoroutine(runAction());       
     }
 
-    IEnumerator runAction(){
+    IEnumerator runAction()
+{
         while (true){
             yield return new WaitForSeconds(waitTime);
             var randomInt = Random.Range(0, 3);
             inAction = true;
             if (randomInt == 0){
-                inBite = true;
+                StartCoroutine("BiteAttack", LocalDatabase.instance.player.transform.position);
             }
             else if(randomInt == 1){
                 initSpike();
@@ -65,24 +68,7 @@ public class Devil : MonoBehaviour {
 
 void Update()
     {
-        if (inBite){
-            if (!reachedPosition){
-                float step = speed * Time.deltaTime;
-                transform.position = Vector3.MoveTowards(transform.position, endMarker.position, step);
-                if (transform.position.x >= endMarker.position.x - .05f){
-                    reachedPosition = true;
-                }
-            }
-            else{
-                float step = speed * Time.deltaTime;
-                transform.position = Vector3.MoveTowards(transform.position, startMarker.position, step);
-                if (transform.position.x <= startMarker.position.x + .05f){
-                    reachedPosition = false;
-                    inBite = false;
-                    inAction = false;
-                }
-            }
-        }
+
     }
 
     public void runAction(DevilAttack state){
@@ -125,12 +111,39 @@ void Update()
         inAction = false;
     }
 
-	//I'll deal with this later on...
-	IEnumerator BiteAttack(){
-		while (true)
+	IEnumerator BiteAttack(Vector3 target)
+	{
+		while ((target.x - transform.position.x) > 0.05f)
 		{
+			transform.position += Vector3.right * speed * 0.1f * Time.deltaTime;
+			Collider2D[] col = Physics2D.OverlapCircleAll(BowlPosition.position, 0.5f);
+			foreach (Collider2D c in col)
+			{
+				if(c.tag == "Player" && !hitPlayer)
+				{
+					Player p = c.GetComponent<Player>();
+					p.Damage();
+					p.rb.velocity += (Vector2.up + Vector2.right) * 10f;
+					hitPlayer = true;
+					break;
+				}
+			}
 			yield return null;
-        }
+		}
+		StartCoroutine(BiteRetreat());
 	}
+
+	IEnumerator BiteRetreat()
+	{
+		StopCoroutine("BiteAttack");
+		while ((transform.position.x - startPos.x) > 0.05f)
+		{
+			transform.position -= Vector3.right * speed * 0.1f * Time.deltaTime;
+			yield return null;
+		}
+		hitPlayer = false;
+		StopCoroutine(BiteRetreat());
+	}
+
 
 }
