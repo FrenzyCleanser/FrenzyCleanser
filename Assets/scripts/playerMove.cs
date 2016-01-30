@@ -9,17 +9,17 @@ public class playerMove : MonoBehaviour {
     bool isAttacking;
     bool isCrounching;
     bool isGrounded;
-    Rigidbody rb;
-    Vector3 position;
-    Transform tf;
+    Rigidbody2D rb;
+    Vector3 feetPosition { get { return transform.position + Vector3.down * transform.localScale.y * 0.5f; } }
+	
     Transform scalepivot;
 
     // Use this for initialization
     void Start () {
-        rb = GetComponent<Rigidbody>();
-        tf = GetComponent<Transform>();
+        rb = GetComponent<Rigidbody2D>();
         isGrounded = false;
         isAttacking = false;
+		
 
     }
 	
@@ -40,16 +40,16 @@ public class playerMove : MonoBehaviour {
 			GroundedCheck();
 			if(isGrounded)
 			{
-				rb.velocity += Vector3.up * JUMPFORCE;
+				rb.velocity += Vector2.up * JUMPFORCE;
 				//rb.AddForce(new Vector3(0, JUMPFORCE,0));
 			}
 		}
 
         if (Input.GetKeyDown(KeyCode.DownArrow)){
-            tf.localScale -= new Vector3(0, 0.5f, 0);
+            transform.localScale -= new Vector3(0, 0.5f, 0);
         }
         if (Input.GetKeyUp(KeyCode.DownArrow)){
-            tf.localScale += new Vector3(0, 0.5f, 0);
+            transform.localScale += new Vector3(0, 0.5f, 0);
         }
 
         var move = new Vector3(Input.GetAxis("Horizontal"), 0, 0);
@@ -57,25 +57,28 @@ public class playerMove : MonoBehaviour {
 
     }
 
+	void FixedUpdate()
+	{
+		Physics2D.IgnoreLayerCollision(8,  9, isCrounching);
+	}
+
 	void GroundedCheck()
 	{
-		RaycastHit hit;
-		if (Physics.Raycast(transform.position, Vector3.down, out hit, transform.localScale.y * 0.5f + 0.1f))
+		Collider2D col = Physics2D.OverlapCircle(feetPosition, 0.2f);
+        if ( col != null )
 		{
-			if (hit.collider.tag == "floor")
+			if(col.gameObject.layer == 9)
 			{
 				isGrounded = true;
-            }
+			}
 		}
-
 	}
 	
-    void OnCollisionExit(Collision other){
-       if(other.gameObject.tag == "floor")
+    void OnCollisionExit2D(Collision2D other)
+	{
+       if(other.gameObject.layer == 9)
 		{
             isGrounded = false;
         }
     }
-
-
 }
