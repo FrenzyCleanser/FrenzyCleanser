@@ -6,7 +6,8 @@ public class WorldManager : MonoBehaviour {
 	public GameObject[] worldPieces;
 
 	public Vector3 spawnPosition;
-
+	[Header("Do not use weird values plz")]
+	public float moveSpeed = 0.5f;
 	public float maxMoveDistance = 150;
 
 	static WorldManager _instance;
