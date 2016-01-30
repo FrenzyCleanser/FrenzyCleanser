@@ -18,6 +18,13 @@ public class LocalDatabase : MonoBehaviour {
         devilatack = (DevilAttack)devil.GetComponent(typeof(DevilAttack));
     }
 
+    //for testing;
+    public void Update(){
+        checkDevilState();
+    }
+
+
+
     public float getApocalypseNormalized(){
         return apocalypseCurrent / apocalypseMax;
     }
