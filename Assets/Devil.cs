@@ -24,6 +24,7 @@ public enum DevilAttack : int
     public Transform startMarker;
     public Transform endMarker;
     public float speed = 1.0F;
+    public Animator anim;
 
     public void setState(int state){
         runAction((DevilAttack)state);
@@ -103,7 +104,8 @@ public enum DevilAttack : int
 
 	IEnumerator BiteAttack(Vector3 target)
 	{
-		while ((target.x - transform.position.x) > 0.05f)
+        
+        while ((target.x - transform.position.x) > 0.05f && !hitPlayer)
 		{
 			transform.position += Vector3.right * speed * 0.5f * Time.deltaTime;
 			Collider2D[] col = Physics2D.OverlapCircleAll(BowlPosition.position, 0.5f);
@@ -115,7 +117,8 @@ public enum DevilAttack : int
 					p.Damage();
 					p.rb.velocity += (Vector2.up + Vector2.right) * 10f;
 					hitPlayer = true;
-					break;
+                    anim.SetTrigger("bite");
+                    break;
 				}
 			}
 			yield return null;
@@ -133,6 +136,7 @@ public enum DevilAttack : int
 		}
 		hitPlayer = false;
         inAction = false;
+        
         StopCoroutine(BiteRetreat());
 	}
 
