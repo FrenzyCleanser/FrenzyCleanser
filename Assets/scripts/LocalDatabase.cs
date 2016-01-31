@@ -61,7 +61,6 @@ public class LocalDatabase : MonoBehaviour {
 
 		if(apocalypseCurrent >= apocalypseMax)
 		{
-			Debug.Log("APOCALYPSE NOW");
 			ShowPanels.instance.ShowGameOverPanel();
 		}
 	}
