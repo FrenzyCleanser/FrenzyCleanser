@@ -30,6 +30,11 @@ public class LocalDatabase : MonoBehaviour {
 	public Player player;
     public Devil devil;
     
+    public int getPentagramCount()
+    {
+        return pentagramCount;
+    }
+
     public void Start()
 	{
 		apocalypsoMeter.fillAmount = apocalypseNormalized;

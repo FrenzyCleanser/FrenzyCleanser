@@ -1,18 +1,22 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameOverMenu : MonoBehaviour
 {
 	bool isOver = false;
-	
-	void OnEnable()
+
+    public Text GUIpentagramCount;
+
+    void OnEnable()
 	{
 		GameOver();
 	}
 
 	public void GameOver()
 	{
-		ShowPanels.instance.GetComponent<PlayMusic>().PlaySelectedMusic(0);
+        GUIpentagramCount.text = "" + LocalDatabase.instance.getPentagramCount();
+        ShowPanels.instance.GetComponent<PlayMusic>().PlaySelectedMusic(0);
 		//Set isPaused to true
 		isOver = true;
 		//Set time.timescale to 0, this will cause animations and physics to stop updating
