@@ -26,10 +26,10 @@ public class LocalDatabase : MonoBehaviour {
 
 	public Image apocalypsoMeter;
 	public Image healthBar;
-
+    public Text GUIpentagramCount;
 	public Player player;
     public Devil devil;
-
+    
     public void Start()
 	{
 		apocalypsoMeter.fillAmount = apocalypseNormalized;
@@ -81,5 +81,6 @@ public class LocalDatabase : MonoBehaviour {
     public void addPentagramCount()
     {
         pentagramCount++;
+        GUIpentagramCount.text = "" + pentagramCount;
     }
 }
