@@ -68,23 +68,23 @@ public enum DevilAttack : int
     public void runAction(DevilAttack state){
         switch (state){
             case DevilAttack.PissedOff:
-                waitTime = 3.0f;
+                waitTime = 2.0f;
                 Debug.Log("In action state = " + state);
 				break;
 			case DevilAttack.Angry:
 				Debug.Log("In action state = " + state);
-                waitTime = 5.0f;
+                waitTime = 3.0f;
                 break;
 			case DevilAttack.Irritated:
                 Debug.Log("In action state = " + state);
-                waitTime = 6.0f;
+                waitTime = 4.0f;
                 break;
 			case DevilAttack.Annoyed:
                 Debug.Log("In action state = " + state);
-                waitTime = 7.0f;
+                waitTime = 5.0f;
                 break;
 			case DevilAttack.Harmless:
-                waitTime = 8.0f;
+                waitTime = 6.0f;
                 break;
             default:
                 Debug.Log("In action state = " + state);
