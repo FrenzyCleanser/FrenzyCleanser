@@ -17,7 +17,8 @@ public class LocalDatabase : MonoBehaviour {
 		}
 	}
 
-	int currentState = 2;
+    private int pentagramCount = 0;
+    int currentState = 2;
     int newState = 2;
     public int mana = 100;
     private float apocalypseMax = 100;
@@ -32,7 +33,8 @@ public class LocalDatabase : MonoBehaviour {
     public void Start()
 	{
 		apocalypsoMeter.fillAmount = apocalypseNormalized;
-	}
+       
+    }
 
     //for testing;
     public void Update()
@@ -75,5 +77,10 @@ public class LocalDatabase : MonoBehaviour {
             currentState++;
             devil.setState(currentState);
         }
+    }
+
+    public void addPentagramCount()
+    {
+        pentagramCount++;
     }
 }
