@@ -82,7 +82,6 @@ public class Player : MonoBehaviour
 			if(col.gameObject.layer == 9)
 			{
 				isGrounded = true;
-                anim.SetBool("isGrounded", true);
                 
             }
 		}
@@ -93,7 +92,6 @@ public class Player : MonoBehaviour
        
        if(other.gameObject.layer == 9){
             isGrounded = false;
-            anim.SetBool("isGrounded", false);
         }
     }
 
