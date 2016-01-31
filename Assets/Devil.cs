@@ -93,6 +93,7 @@ public enum DevilAttack : int
     }
 
     private void initSpike(){
+        anim.SetTrigger("throw");
         Instantiate(spike, throwPosition.position, transform.rotation);
         inAction = false;
     }
