@@ -26,10 +26,11 @@ public class LocalDatabase : MonoBehaviour {
 
 	public Image apocalypsoMeter;
 	public Image healthBar;
-    public Text GUIpentagramCount;
 	public Player player;
     public Devil devil;
-    
+	
+
+
     public int getPentagramCount()
     {
         return pentagramCount;
@@ -44,7 +45,7 @@ public class LocalDatabase : MonoBehaviour {
     //for testing;
     public void Update()
 	{
-		
+	
 	}
 
     public float apocalypseNormalized { get { return apocalypseCurrent / apocalypseMax; } }
@@ -86,6 +87,5 @@ public class LocalDatabase : MonoBehaviour {
     public void addPentagramCount()
     {
         pentagramCount++;
-        GUIpentagramCount.text = "" + pentagramCount;
     }
 }

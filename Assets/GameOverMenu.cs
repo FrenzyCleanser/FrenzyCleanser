@@ -7,15 +7,19 @@ public class GameOverMenu : MonoBehaviour
 	bool isOver = false;
 
     public Text GUIpentagramCount;
+	public Text TimeSpent;
 
     void OnEnable()
 	{
 		GameOver();
 	}
 
+
 	public void GameOver()
 	{
-        GUIpentagramCount.text = "" + LocalDatabase.instance.getPentagramCount();
+        GUIpentagramCount.text =  LocalDatabase.instance.getPentagramCount().ToString();
+		TimeSpent.text = Time.timeSinceLevelLoad.ToString() + " seconds lived";
+		
         ShowPanels.instance.GetComponent<PlayMusic>().PlaySelectedMusic(0);
 		//Set isPaused to true
 		isOver = true;
