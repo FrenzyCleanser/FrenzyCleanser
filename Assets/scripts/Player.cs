@@ -51,15 +51,19 @@ public class Player : MonoBehaviour
 				//rb.AddForce(new Vector3(0, JUMPFORCE,0));
 			}
 		}
+        if (Input.GetKey(KeyCode.DownArrow)){
+            anim.SetBool("isSliding", true);
+        }
 
         if (Input.GetKeyDown(KeyCode.DownArrow)){
-            transform.localScale -= Vector3.up * 0.5f;
 			transform.position -= Vector3.up * 0.5f;
+            
         }
         if (Input.GetKeyUp(KeyCode.DownArrow)){
-			transform.localScale += Vector3.up * 0.5f;
+            anim.SetBool("isSliding", false);
 			transform.position += Vector3.up * 0.5f;
-		}
+            
+        }
 
         var move = new Vector3(Input.GetAxis("Horizontal"), 0, 0);
         transform.position += move * MOVESPEED * Time.deltaTime;
