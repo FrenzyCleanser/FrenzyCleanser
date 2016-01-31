@@ -16,7 +16,7 @@ public class Player : MonoBehaviour
 	[HideInInspector]
 	public Rigidbody2D rb;
     Vector3 feetPosition { get { return transform.position + Vector3.down * transform.localScale.y * 0.5f; } }
-	
+    BoxCollider2D col;
     Transform scalepivot;
 
     // Use this for initialization
@@ -27,7 +27,7 @@ public class Player : MonoBehaviour
         isGrounded = false;
         //anim.SetBool("isGrounded", isGrounded);
         isAttacking = false;
-       
+        col = GetComponent<BoxCollider2D>();
     }
 	
 	// Update is called once per frame
@@ -53,6 +53,8 @@ public class Player : MonoBehaviour
 		}
         if (Input.GetKey(KeyCode.DownArrow)){
             anim.SetBool("isSliding", true);
+            col.size = new Vector2(1.0f, 0.5f);
+            col.offset = new Vector2(0.0f, -0.30f);
         }
 
         if (Input.GetKeyDown(KeyCode.DownArrow)){
@@ -62,7 +64,9 @@ public class Player : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.DownArrow)){
             anim.SetBool("isSliding", false);
 			transform.position += Vector3.up * 0.5f;
-            
+            col.size = new Vector2(1.0f, 1.73f);
+            col.offset = new Vector2(0.0f, 0.36f);
+
         }
 
         var move = new Vector3(Input.GetAxis("Horizontal"), 0, 0);
@@ -84,7 +88,6 @@ public class Player : MonoBehaviour
 			if(col.gameObject.layer == 9)
 			{
 				isGrounded = true;
-                Debug.Log("Entering");
                 anim.SetBool("isGrounded", true);
                 
             }
@@ -94,9 +97,7 @@ public class Player : MonoBehaviour
     void OnCollisionExit2D(Collision2D other)
 	{
        
-       if(other.gameObject.layer == 9)
-		{
-            Debug.Log("leaving");
+       if(other.gameObject.layer == 9){
             isGrounded = false;
             anim.SetBool("isGrounded", false);
         }
@@ -107,9 +108,11 @@ public class Player : MonoBehaviour
 		Damage(1);
 	}
 
-	public void Damage(int i)
-	{
-		health -= i;
+	public void Damage(int i){
+       health -= i;
+       if(health > maxHealth){
+            health = maxHealth;
+        } 
 		HealthUpdate();
 	}
 
