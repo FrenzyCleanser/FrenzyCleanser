@@ -24,6 +24,7 @@ public enum DevilAttack : int
     public Transform startMarker;
     public Transform endMarker;
     public float speed = 1.0F;
+    public Animator anim;
 
     public void setState(int state){
         runAction((DevilAttack)state);
@@ -72,18 +73,18 @@ public enum DevilAttack : int
 				break;
 			case DevilAttack.Angry:
 				Debug.Log("In action state = " + state);
-                waitTime = 6.0f;
+                waitTime = 5.0f;
                 break;
 			case DevilAttack.Irritated:
                 Debug.Log("In action state = " + state);
-                waitTime = 8.0f;
+                waitTime = 6.0f;
                 break;
 			case DevilAttack.Annoyed:
                 Debug.Log("In action state = " + state);
-                waitTime = 10.0f;
+                waitTime = 7.0f;
                 break;
 			case DevilAttack.Harmless:
-                waitTime = 12.0f;
+                waitTime = 8.0f;
                 break;
             default:
                 Debug.Log("In action state = " + state);
@@ -92,6 +93,7 @@ public enum DevilAttack : int
     }
 
     private void initSpike(){
+        anim.SetTrigger("throw");
         Instantiate(spike, throwPosition.position, transform.rotation);
         inAction = false;
     }
@@ -103,7 +105,8 @@ public enum DevilAttack : int
 
 	IEnumerator BiteAttack(Vector3 target)
 	{
-		while ((target.x - transform.position.x) > 0.05f)
+        
+        while ((target.x - transform.position.x) > 0.05f && !hitPlayer)
 		{
 			transform.position += Vector3.right * speed * 0.5f * Time.deltaTime;
 			Collider2D[] col = Physics2D.OverlapCircleAll(BowlPosition.position, 0.5f);
@@ -115,7 +118,8 @@ public enum DevilAttack : int
 					p.Damage();
 					p.rb.velocity += (Vector2.up + Vector2.right) * 10f;
 					hitPlayer = true;
-					break;
+                    anim.SetTrigger("bite");
+                    break;
 				}
 			}
 			yield return null;
@@ -133,6 +137,7 @@ public enum DevilAttack : int
 		}
 		hitPlayer = false;
         inAction = false;
+        
         StopCoroutine(BiteRetreat());
 	}
 
