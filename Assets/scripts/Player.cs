@@ -31,9 +31,10 @@ public class Player : MonoBehaviour
     }
 	
 	// Update is called once per frame
-	void Update ()
-	{
-        
+	void Update (){
+       
+        anim.SetFloat("velocity", rb.velocity.y);
+
         //WHAT IS AN ATTACK EVEN?
         if (Input.GetKeyDown(KeyCode.X)){
             isAttacking = true;
