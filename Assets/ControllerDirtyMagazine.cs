@@ -7,7 +7,7 @@ public class ControllerDirtyMagazine : MonoBehaviour {
     {
         if (other.gameObject.tag == "Player")
         {
-            LocalDatabase.instance.addApocalypse(2);
+            LocalDatabase.instance.addApocalypse(10);
         }
     }
 }
