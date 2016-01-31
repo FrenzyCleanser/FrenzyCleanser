@@ -99,6 +99,7 @@ public enum DevilAttack : int
     }
 
     private void initBowl(){
+        anim.SetTrigger("bowl");
         Instantiate(bowl, BowlPosition.position, transform.rotation);
         inAction = false;
     }
