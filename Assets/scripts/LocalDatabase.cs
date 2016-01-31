@@ -56,6 +56,12 @@ public class LocalDatabase : MonoBehaviour {
 	{
 		checkDevilState();
         apocalypsoMeter.fillAmount = apocalypseNormalized;
+
+		if(apocalypseCurrent >= apocalypseMax)
+		{
+			Debug.Log("APOCALYPSE NOW");
+			ShowPanels.instance.ShowGameOverPanel();
+		}
 	}
 
 	float[,] devilList = new float[5, 2] { { -1000, 0.2f }, { 0.2f, .4f }, { .4f, .6f }, { .6f, .8f }, { .8f, 1000 } };

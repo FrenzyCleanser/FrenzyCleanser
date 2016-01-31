@@ -12,6 +12,7 @@ public class GameOverMenu : MonoBehaviour
 
 	public void GameOver()
 	{
+		ShowPanels.instance.GetComponent<PlayMusic>().PlaySelectedMusic(0);
 		//Set isPaused to true
 		isOver = true;
 		//Set time.timescale to 0, this will cause animations and physics to stop updating
@@ -21,8 +22,10 @@ public class GameOverMenu : MonoBehaviour
 
 	public void Retry()
 	{
+		
 		SceneManager.LoadScene("endless");
-		gameObject.SetActive(false);
+		ShowPanels.instance.GetComponent<PlayMusic>().PlaySelectedMusic(1);
+        gameObject.SetActive(false);
 		Time.timeScale = 1;
 		//call the ShowPausePanel function of the ShowPanels script
 	}

@@ -12,6 +12,11 @@ public class ShowPanels : MonoBehaviour {
 			{
 				_instance = FindObjectOfType<ShowPanels>();
 			}
+			if (_instance == null)
+			{
+				_instance = Instantiate<GameObject>(Resources.Load<GameObject>("UI")).GetComponent<ShowPanels>();
+				_instance.HideMenu();
+            }
 			return _instance;
 		}
 	}
